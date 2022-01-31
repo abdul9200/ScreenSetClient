@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta content="text/html; charset=iso-8859-2" http-equiv="Content-Type">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+.mySlides {display:none;
+    width:100%}
+</style>
+ <script src="./OrderMedia.js"></script>
+</head>
+
+<body>
+
+<h2 class="w3-center">Automatic Slideshow</h2>
+
+<div class="slider" style="max-width:500px">
+
+</div>
+
+<script>
+    function prepareSlider(doc){
+		  var content=document.getElementsByClassName("slider")[0];
+		  for (i=0;i<doc.length;i++){
+			  if(doc[i]['type']=='image'){
+				  var img=document.createElement("img");
+				  
+				  img.src=doc[i]["path"];
+				  img.className="mySlides"
+				  content.appendChild(img);
+				  
+			  }
+			  else if (doc[i]['type']=='video'){
+				  var video=document.createElement("video");
+				  video.src=doc[i]["path"];
+				  video.autoplay=true;
+				  video.controls=true;
+				  video.className="mySlides"
+				  content.appendChild(video);
+			  }
+			  else 
+			  {
+				  var frame=document.createElement("iframe");
+				  frame.src=doc[i]["path"];
+				  frame.className="mySlides"
+				  content.appendChild(frame);
+			  }
+         }
+    }
+
+var myIndex = 0;
+
+prepareSlider(json);
+carousel();
+
+
+
+function carousel() {
+    
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  myIndex++;
+
+  if (myIndex > x.length) {myIndex = 1;}    
+  x[myIndex-1].style.display = "block";
+
+  
+  if(x[myIndex-1].tagName=="VIDEO"){
+       
+      x[myIndex-1].play();
+      console.log('played');
+      console.log( x[myIndex-1].currentTime);
+     /* setTimeout(()=>{x[myIndex-1].pause();
+          x[myIndex-1].currentTime=0;
+	  console.log('paused');},json[myIndex-1]["duration"]);
+  */}
+  
+  
+    
+  setTimeout(carousel, json[myIndex-1]["duration"]);
+
+}
+</script>
+
+</body>
+</html>
